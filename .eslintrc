@@ -1,0 +1,12 @@
+{
+  "ignorePatterns": [
+    "node_modules",
+    ".next",
+    "dist",
+    ".open-next",
+    ".wrangler",
+    "*.config.js",
+    "*.config.mjs",
+    "*.config.ts"
+  ]
+}
