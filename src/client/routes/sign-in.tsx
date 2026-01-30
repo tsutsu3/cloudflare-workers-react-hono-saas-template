@@ -20,9 +20,9 @@ import { REDIRECT_AFTER_SIGN_IN } from "@/shared/constants";
 
 export const Route = createFileRoute('/sign-in' as const)({
   component: SignInRoute,
-  validateSearch: (search: Record<string, unknown>) => {
+  validateSearch: (search: Record<string, unknown>): { redirect?: string } => {
     return {
-      redirect: (search.redirect as string) || REDIRECT_AFTER_SIGN_IN,
+      redirect: (search.redirect as string) || undefined,
     };
   },
 });
@@ -103,7 +103,8 @@ function PasskeyAuthenticationButton({ className, disabled, children, redirectPa
 }
 
 function SignInRoute() {
-  const { redirect: redirectPath } = useSearch({ from: '/sign-in' });
+  const { redirect } = useSearch({ from: '/sign-in' });
+  const redirectPath = redirect || REDIRECT_AFTER_SIGN_IN;
 
   const signInMutation = useMutation({
     mutationFn: async (data: SignInSchema) => {

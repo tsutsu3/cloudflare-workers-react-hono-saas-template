@@ -8,143 +8,561 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
-import { createFileRoute } from '@tanstack/react-router'
+import { Route as rootRouteImport } from './routes/__root'
+import { Route as VerifyEmailRouteImport } from './routes/verify-email'
+import { Route as TermsRouteImport } from './routes/terms'
+import { Route as TeamInviteRouteImport } from './routes/team-invite'
+import { Route as SignUpRouteImport } from './routes/sign-up'
+import { Route as SignInRouteImport } from './routes/sign-in'
+import { Route as SettingsRouteImport } from './routes/settings'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as ForgotPasswordRouteImport } from './routes/forgot-password'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as IndexRouteImport } from './routes/index'
+import { Route as SettingsIndexRouteImport } from './routes/settings/index'
+import { Route as DashboardIndexRouteImport } from './routes/dashboard/index'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as SettingsSessionsRouteImport } from './routes/settings/sessions'
+import { Route as SettingsSecurityRouteImport } from './routes/settings/security'
+import { Route as DashboardBillingRouteImport } from './routes/dashboard/billing'
+import { Route as SsoGoogleIndexRouteImport } from './routes/sso/google/index'
+import { Route as DashboardTeamsIndexRouteImport } from './routes/dashboard/teams/index'
+import { Route as SsoGoogleCallbackRouteImport } from './routes/sso/google/callback'
+import { Route as DashboardTeamsCreateRouteImport } from './routes/dashboard/teams/create'
+import { Route as DashboardTeamsTeamSlugRouteImport } from './routes/dashboard/teams/$teamSlug'
+import { Route as AdminUsersUserIdRouteImport } from './routes/admin/users/$userId'
 
-// Import Routes
-
-import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
-
-// Create/Update Routes
-
-const IndexRoute = IndexImport.update({
+const VerifyEmailRoute = VerifyEmailRouteImport.update({
+  id: '/verify-email',
+  path: '/verify-email',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TeamInviteRoute = TeamInviteRouteImport.update({
+  id: '/team-invite',
+  path: '/team-invite',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignUpRoute = SignUpRouteImport.update({
+  id: '/sign-up',
+  path: '/sign-up',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SignInRoute = SignInRouteImport.update({
+  id: '/sign-in',
+  path: '/sign-in',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsRoute = SettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ForgotPasswordRoute = ForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
-  getParentRoute: () => rootRoute,
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SettingsIndexRoute = SettingsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const DashboardIndexRoute = DashboardIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
+} as any)
+const SettingsSessionsRoute = SettingsSessionsRouteImport.update({
+  id: '/sessions',
+  path: '/sessions',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const SettingsSecurityRoute = SettingsSecurityRouteImport.update({
+  id: '/security',
+  path: '/security',
+  getParentRoute: () => SettingsRoute,
+} as any)
+const DashboardBillingRoute = DashboardBillingRouteImport.update({
+  id: '/billing',
+  path: '/billing',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const SsoGoogleIndexRoute = SsoGoogleIndexRouteImport.update({
+  id: '/sso/google/',
+  path: '/sso/google/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardTeamsIndexRoute = DashboardTeamsIndexRouteImport.update({
+  id: '/teams/',
+  path: '/teams/',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const SsoGoogleCallbackRoute = SsoGoogleCallbackRouteImport.update({
+  id: '/sso/google/callback',
+  path: '/sso/google/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardTeamsCreateRoute = DashboardTeamsCreateRouteImport.update({
+  id: '/teams/create',
+  path: '/teams/create',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const DashboardTeamsTeamSlugRoute = DashboardTeamsTeamSlugRouteImport.update({
+  id: '/teams/$teamSlug',
+  path: '/teams/$teamSlug',
+  getParentRoute: () => DashboardRoute,
+} as any)
+const AdminUsersUserIdRoute = AdminUsersUserIdRouteImport.update({
+  id: '/users/$userId',
+  path: '/users/$userId',
+  getParentRoute: () => AdminRoute,
 } as any)
 
-// Populate the FileRoutesByPath interface
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/settings': typeof SettingsRouteWithChildren
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
+  '/team-invite': typeof TeamInviteRoute
+  '/terms': typeof TermsRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/settings/security': typeof SettingsSecurityRoute
+  '/settings/sessions': typeof SettingsSessionsRoute
+  '/admin/': typeof AdminIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/dashboard/teams/$teamSlug': typeof DashboardTeamsTeamSlugRoute
+  '/dashboard/teams/create': typeof DashboardTeamsCreateRoute
+  '/sso/google/callback': typeof SsoGoogleCallbackRoute
+  '/dashboard/teams/': typeof DashboardTeamsIndexRoute
+  '/sso/google/': typeof SsoGoogleIndexRoute
+}
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
+  '/team-invite': typeof TeamInviteRoute
+  '/terms': typeof TermsRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/settings/security': typeof SettingsSecurityRoute
+  '/settings/sessions': typeof SettingsSessionsRoute
+  '/admin': typeof AdminIndexRoute
+  '/dashboard': typeof DashboardIndexRoute
+  '/settings': typeof SettingsIndexRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/dashboard/teams/$teamSlug': typeof DashboardTeamsTeamSlugRoute
+  '/dashboard/teams/create': typeof DashboardTeamsCreateRoute
+  '/sso/google/callback': typeof SsoGoogleCallbackRoute
+  '/dashboard/teams': typeof DashboardTeamsIndexRoute
+  '/sso/google': typeof SsoGoogleIndexRoute
+}
+export interface FileRoutesById {
+  __root__: typeof rootRouteImport
+  '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/dashboard': typeof DashboardRouteWithChildren
+  '/forgot-password': typeof ForgotPasswordRoute
+  '/privacy': typeof PrivacyRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/settings': typeof SettingsRouteWithChildren
+  '/sign-in': typeof SignInRoute
+  '/sign-up': typeof SignUpRoute
+  '/team-invite': typeof TeamInviteRoute
+  '/terms': typeof TermsRoute
+  '/verify-email': typeof VerifyEmailRoute
+  '/dashboard/billing': typeof DashboardBillingRoute
+  '/settings/security': typeof SettingsSecurityRoute
+  '/settings/sessions': typeof SettingsSessionsRoute
+  '/admin/': typeof AdminIndexRoute
+  '/dashboard/': typeof DashboardIndexRoute
+  '/settings/': typeof SettingsIndexRoute
+  '/admin/users/$userId': typeof AdminUsersUserIdRoute
+  '/dashboard/teams/$teamSlug': typeof DashboardTeamsTeamSlugRoute
+  '/dashboard/teams/create': typeof DashboardTeamsCreateRoute
+  '/sso/google/callback': typeof SsoGoogleCallbackRoute
+  '/dashboard/teams/': typeof DashboardTeamsIndexRoute
+  '/sso/google/': typeof SsoGoogleIndexRoute
+}
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/admin'
+    | '/dashboard'
+    | '/forgot-password'
+    | '/privacy'
+    | '/reset-password'
+    | '/settings'
+    | '/sign-in'
+    | '/sign-up'
+    | '/team-invite'
+    | '/terms'
+    | '/verify-email'
+    | '/dashboard/billing'
+    | '/settings/security'
+    | '/settings/sessions'
+    | '/admin/'
+    | '/dashboard/'
+    | '/settings/'
+    | '/admin/users/$userId'
+    | '/dashboard/teams/$teamSlug'
+    | '/dashboard/teams/create'
+    | '/sso/google/callback'
+    | '/dashboard/teams/'
+    | '/sso/google/'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/forgot-password'
+    | '/privacy'
+    | '/reset-password'
+    | '/sign-in'
+    | '/sign-up'
+    | '/team-invite'
+    | '/terms'
+    | '/verify-email'
+    | '/dashboard/billing'
+    | '/settings/security'
+    | '/settings/sessions'
+    | '/admin'
+    | '/dashboard'
+    | '/settings'
+    | '/admin/users/$userId'
+    | '/dashboard/teams/$teamSlug'
+    | '/dashboard/teams/create'
+    | '/sso/google/callback'
+    | '/dashboard/teams'
+    | '/sso/google'
+  id:
+    | '__root__'
+    | '/'
+    | '/admin'
+    | '/dashboard'
+    | '/forgot-password'
+    | '/privacy'
+    | '/reset-password'
+    | '/settings'
+    | '/sign-in'
+    | '/sign-up'
+    | '/team-invite'
+    | '/terms'
+    | '/verify-email'
+    | '/dashboard/billing'
+    | '/settings/security'
+    | '/settings/sessions'
+    | '/admin/'
+    | '/dashboard/'
+    | '/settings/'
+    | '/admin/users/$userId'
+    | '/dashboard/teams/$teamSlug'
+    | '/dashboard/teams/create'
+    | '/sso/google/callback'
+    | '/dashboard/teams/'
+    | '/sso/google/'
+  fileRoutesById: FileRoutesById
+}
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  DashboardRoute: typeof DashboardRouteWithChildren
+  ForgotPasswordRoute: typeof ForgotPasswordRoute
+  PrivacyRoute: typeof PrivacyRoute
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SettingsRoute: typeof SettingsRouteWithChildren
+  SignInRoute: typeof SignInRoute
+  SignUpRoute: typeof SignUpRoute
+  TeamInviteRoute: typeof TeamInviteRoute
+  TermsRoute: typeof TermsRoute
+  VerifyEmailRoute: typeof VerifyEmailRoute
+  SsoGoogleCallbackRoute: typeof SsoGoogleCallbackRoute
+  SsoGoogleIndexRoute: typeof SsoGoogleIndexRoute
+}
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/verify-email': {
+      id: '/verify-email'
+      path: '/verify-email'
+      fullPath: '/verify-email'
+      preLoaderRoute: typeof VerifyEmailRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/team-invite': {
+      id: '/team-invite'
+      path: '/team-invite'
+      fullPath: '/team-invite'
+      preLoaderRoute: typeof TeamInviteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-up': {
+      id: '/sign-up'
+      path: '/sign-up'
+      fullPath: '/sign-up'
+      preLoaderRoute: typeof SignUpRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sign-in': {
+      id: '/sign-in'
+      path: '/sign-in'
+      fullPath: '/sign-in'
+      preLoaderRoute: typeof SignInRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/settings': {
+      id: '/settings'
+      path: '/settings'
+      fullPath: '/settings'
+      preLoaderRoute: typeof SettingsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/forgot-password': {
+      id: '/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/forgot-password'
+      preLoaderRoute: typeof ForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
     }
-    // Placeholder routes - will be auto-generated when route files are created
-    '/terms': { id: '/terms'; path: '/terms'; fullPath: '/terms'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/privacy': { id: '/privacy'; path: '/privacy'; fullPath: '/privacy'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/sign-in': { id: '/sign-in'; path: '/sign-in'; fullPath: '/sign-in'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/sign-up': { id: '/sign-up'; path: '/sign-up'; fullPath: '/sign-up'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/settings': { id: '/settings'; path: '/settings'; fullPath: '/settings'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/dashboard': { id: '/dashboard'; path: '/dashboard'; fullPath: '/dashboard'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/dashboard/billing': { id: '/dashboard/billing'; path: '/dashboard/billing'; fullPath: '/dashboard/billing'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/dashboard/teams': { id: '/dashboard/teams'; path: '/dashboard/teams'; fullPath: '/dashboard/teams'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/dashboard/teams/create': { id: '/dashboard/teams/create'; path: '/dashboard/teams/create'; fullPath: '/dashboard/teams/create'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/admin': { id: '/admin'; path: '/admin'; fullPath: '/admin'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/forgot-password': { id: '/forgot-password'; path: '/forgot-password'; fullPath: '/forgot-password'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/reset-password': { id: '/reset-password'; path: '/reset-password'; fullPath: '/reset-password'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/verify-email': { id: '/verify-email'; path: '/verify-email'; fullPath: '/verify-email'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/team-invite': { id: '/team-invite'; path: '/team-invite'; fullPath: '/team-invite'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/sso/google': { id: '/sso/google'; path: '/sso/google'; fullPath: '/sso/google'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/sso/google/': { id: '/sso/google/'; path: '/sso/google/'; fullPath: '/sso/google/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/sso/google/callback': { id: '/sso/google/callback'; path: '/sso/google/callback'; fullPath: '/sso/google/callback'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/dashboard/': { id: '/dashboard/'; path: '/dashboard/'; fullPath: '/dashboard/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/settings/': { id: '/settings/'; path: '/settings/'; fullPath: '/settings/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/settings/security': { id: '/settings/security'; path: '/settings/security'; fullPath: '/settings/security'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/settings/sessions': { id: '/settings/sessions'; path: '/settings/sessions'; fullPath: '/settings/sessions'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/dashboard/teams/': { id: '/dashboard/teams/'; path: '/dashboard/teams/'; fullPath: '/dashboard/teams/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/dashboard/teams/$teamSlug': { id: '/dashboard/teams/$teamSlug'; path: '/dashboard/teams/$teamSlug'; fullPath: '/dashboard/teams/$teamSlug'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/admin/': { id: '/admin/'; path: '/admin/'; fullPath: '/admin/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
-    '/admin/users/$userId': { id: '/admin/users/$userId'; path: '/admin/users/$userId'; fullPath: '/admin/users/$userId'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/settings/': {
+      id: '/settings/'
+      path: '/'
+      fullPath: '/settings/'
+      preLoaderRoute: typeof SettingsIndexRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/dashboard/': {
+      id: '/dashboard/'
+      path: '/'
+      fullPath: '/dashboard/'
+      preLoaderRoute: typeof DashboardIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/settings/sessions': {
+      id: '/settings/sessions'
+      path: '/sessions'
+      fullPath: '/settings/sessions'
+      preLoaderRoute: typeof SettingsSessionsRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/settings/security': {
+      id: '/settings/security'
+      path: '/security'
+      fullPath: '/settings/security'
+      preLoaderRoute: typeof SettingsSecurityRouteImport
+      parentRoute: typeof SettingsRoute
+    }
+    '/dashboard/billing': {
+      id: '/dashboard/billing'
+      path: '/billing'
+      fullPath: '/dashboard/billing'
+      preLoaderRoute: typeof DashboardBillingRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/sso/google/': {
+      id: '/sso/google/'
+      path: '/sso/google'
+      fullPath: '/sso/google/'
+      preLoaderRoute: typeof SsoGoogleIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/teams/': {
+      id: '/dashboard/teams/'
+      path: '/teams'
+      fullPath: '/dashboard/teams/'
+      preLoaderRoute: typeof DashboardTeamsIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/sso/google/callback': {
+      id: '/sso/google/callback'
+      path: '/sso/google/callback'
+      fullPath: '/sso/google/callback'
+      preLoaderRoute: typeof SsoGoogleCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/teams/create': {
+      id: '/dashboard/teams/create'
+      path: '/teams/create'
+      fullPath: '/dashboard/teams/create'
+      preLoaderRoute: typeof DashboardTeamsCreateRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/dashboard/teams/$teamSlug': {
+      id: '/dashboard/teams/$teamSlug'
+      path: '/teams/$teamSlug'
+      fullPath: '/dashboard/teams/$teamSlug'
+      preLoaderRoute: typeof DashboardTeamsTeamSlugRouteImport
+      parentRoute: typeof DashboardRoute
+    }
+    '/admin/users/$userId': {
+      id: '/admin/users/$userId'
+      path: '/users/$userId'
+      fullPath: '/admin/users/$userId'
+      preLoaderRoute: typeof AdminUsersUserIdRouteImport
+      parentRoute: typeof AdminRoute
+    }
   }
 }
 
-// Create and export the route tree
-
-export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/terms': typeof IndexRoute
-  '/privacy': typeof IndexRoute
-  '/sign-in': typeof IndexRoute
-  '/sign-up': typeof IndexRoute
-  '/settings': typeof IndexRoute
-  '/settings/': typeof IndexRoute
-  '/settings/security': typeof IndexRoute
-  '/settings/sessions': typeof IndexRoute
-  '/dashboard': typeof IndexRoute
-  '/dashboard/': typeof IndexRoute
-  '/dashboard/billing': typeof IndexRoute
-  '/dashboard/teams': typeof IndexRoute
-  '/dashboard/teams/': typeof IndexRoute
-  '/dashboard/teams/create': typeof IndexRoute
-  '/dashboard/teams/$teamSlug': typeof IndexRoute
-  '/admin': typeof IndexRoute
-  '/admin/': typeof IndexRoute
-  '/admin/users/$userId': typeof IndexRoute
-  '/forgot-password': typeof IndexRoute
-  '/reset-password': typeof IndexRoute
-  '/verify-email': typeof IndexRoute
-  '/team-invite': typeof IndexRoute
-  '/sso/google': typeof IndexRoute
-  '/sso/google/': typeof IndexRoute
-  '/sso/google/callback': typeof IndexRoute
+interface AdminRouteChildren {
+  AdminIndexRoute: typeof AdminIndexRoute
+  AdminUsersUserIdRoute: typeof AdminUsersUserIdRoute
 }
 
-export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/terms': typeof IndexRoute
-  '/privacy': typeof IndexRoute
-  '/sign-in': typeof IndexRoute
-  '/sign-up': typeof IndexRoute
-  '/settings': typeof IndexRoute
-  '/settings/': typeof IndexRoute
-  '/settings/security': typeof IndexRoute
-  '/settings/sessions': typeof IndexRoute
-  '/dashboard': typeof IndexRoute
-  '/dashboard/': typeof IndexRoute
-  '/dashboard/billing': typeof IndexRoute
-  '/dashboard/teams': typeof IndexRoute
-  '/dashboard/teams/': typeof IndexRoute
-  '/dashboard/teams/create': typeof IndexRoute
-  '/dashboard/teams/$teamSlug': typeof IndexRoute
-  '/admin': typeof IndexRoute
-  '/admin/': typeof IndexRoute
-  '/admin/users/$userId': typeof IndexRoute
-  '/forgot-password': typeof IndexRoute
-  '/reset-password': typeof IndexRoute
-  '/verify-email': typeof IndexRoute
-  '/team-invite': typeof IndexRoute
-  '/sso/google': typeof IndexRoute
-  '/sso/google/': typeof IndexRoute
-  '/sso/google/callback': typeof IndexRoute
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminIndexRoute: AdminIndexRoute,
+  AdminUsersUserIdRoute: AdminUsersUserIdRoute,
 }
 
-export interface FileRoutesById {
-  __root__: typeof rootRoute
-  '/': typeof IndexRoute
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface DashboardRouteChildren {
+  DashboardBillingRoute: typeof DashboardBillingRoute
+  DashboardIndexRoute: typeof DashboardIndexRoute
+  DashboardTeamsTeamSlugRoute: typeof DashboardTeamsTeamSlugRoute
+  DashboardTeamsCreateRoute: typeof DashboardTeamsCreateRoute
+  DashboardTeamsIndexRoute: typeof DashboardTeamsIndexRoute
 }
 
-export interface FileRouteTypes {
-  fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/' | '/dashboard/teams/create' | '/dashboard/teams/$teamSlug' | '/admin' | '/admin/' | '/admin/users/$userId' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
-  fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/' | '/dashboard/teams/create' | '/dashboard/teams/$teamSlug' | '/admin' | '/admin/' | '/admin/users/$userId' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
-  id: '__root__' | '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/' | '/dashboard/teams/create' | '/dashboard/teams/$teamSlug' | '/admin' | '/admin/' | '/admin/users/$userId' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
-  fileRoutesById: FileRoutesById
+const DashboardRouteChildren: DashboardRouteChildren = {
+  DashboardBillingRoute: DashboardBillingRoute,
+  DashboardIndexRoute: DashboardIndexRoute,
+  DashboardTeamsTeamSlugRoute: DashboardTeamsTeamSlugRoute,
+  DashboardTeamsCreateRoute: DashboardTeamsCreateRoute,
+  DashboardTeamsIndexRoute: DashboardTeamsIndexRoute,
 }
 
-export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+const DashboardRouteWithChildren = DashboardRoute._addFileChildren(
+  DashboardRouteChildren,
+)
+
+interface SettingsRouteChildren {
+  SettingsSecurityRoute: typeof SettingsSecurityRoute
+  SettingsSessionsRoute: typeof SettingsSessionsRoute
+  SettingsIndexRoute: typeof SettingsIndexRoute
 }
+
+const SettingsRouteChildren: SettingsRouteChildren = {
+  SettingsSecurityRoute: SettingsSecurityRoute,
+  SettingsSessionsRoute: SettingsSessionsRoute,
+  SettingsIndexRoute: SettingsIndexRoute,
+}
+
+const SettingsRouteWithChildren = SettingsRoute._addFileChildren(
+  SettingsRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  DashboardRoute: DashboardRouteWithChildren,
+  ForgotPasswordRoute: ForgotPasswordRoute,
+  PrivacyRoute: PrivacyRoute,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SettingsRoute: SettingsRouteWithChildren,
+  SignInRoute: SignInRoute,
+  SignUpRoute: SignUpRoute,
+  TeamInviteRoute: TeamInviteRoute,
+  TermsRoute: TermsRoute,
+  VerifyEmailRoute: VerifyEmailRoute,
+  SsoGoogleCallbackRoute: SsoGoogleCallbackRoute,
+  SsoGoogleIndexRoute: SsoGoogleIndexRoute,
 }
-
-export const routeTree = rootRoute
+export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()

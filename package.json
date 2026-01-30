@@ -9,7 +9,7 @@
     "dev:server": "wrangler dev src/server/index.ts --port 8787",
     "build": "npm run build:client && npm run build:server",
     "build:client": "vite build",
-    "build:server": "esbuild src/server/index.ts --bundle --format=esm --outfile=dist/server/index.js --platform=neutral --conditions=workerd,worker,browser",
+    "build:server": "wrangler deploy --dry-run --outdir=dist/server",
     "deploy": "npm run build && wrangler deploy",
     "preview": "npm run build && wrangler dev --remote",
     "cf-typegen": "wrangler types --env-interface CloudflareEnv ./cloudflare-env.d.ts",

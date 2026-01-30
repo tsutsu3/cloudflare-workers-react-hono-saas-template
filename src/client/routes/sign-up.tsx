@@ -25,15 +25,16 @@ import { REDIRECT_AFTER_SIGN_IN } from "@/shared/constants";
 
 export const Route = createFileRoute('/sign-up' as const)({
   component: SignUpRoute,
-  validateSearch: (search: Record<string, unknown>) => {
+  validateSearch: (search: Record<string, unknown>): { redirect?: string } => {
     return {
-      redirect: (search.redirect as string) || REDIRECT_AFTER_SIGN_IN,
+      redirect: (search.redirect as string) || undefined,
     };
   },
 });
 
 function SignUpRoute() {
-  const { redirect: redirectPath } = useSearch({ from: '/sign-up' });
+  const { redirect } = useSearch({ from: '/sign-up' });
+  const redirectPath = redirect || REDIRECT_AFTER_SIGN_IN;
   const { isTurnstileEnabled } = useConfigStore();
   const [isPasskeyModalOpen, setIsPasskeyModalOpen] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
