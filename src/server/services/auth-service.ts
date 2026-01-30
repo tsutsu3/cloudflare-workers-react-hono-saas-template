@@ -539,8 +539,8 @@ export function deleteSessionTokenCookie(c: Context): void {
   });
 }
 
-export async function getSessionFromCookie(
-  c: Context<{ Bindings: AuthEnv }>
+export async function getSessionFromCookie<E extends AuthEnv>(
+  c: Context<{ Bindings: E }>
 ): Promise<SessionValidationResult | null> {
   const sessionCookie = getCookie(c, SESSION_COOKIE_NAME);
 
@@ -561,8 +561,8 @@ export async function getSessionFromCookie(
 // Authorization Helpers
 // ============================================================================
 
-export async function requireAuth(
-  c: Context<{ Bindings: AuthEnv }>
+export async function requireAuth<E extends AuthEnv>(
+  c: Context<{ Bindings: E }>
 ): Promise<SessionValidationResult> {
   const session = await getSessionFromCookie(c);
 
@@ -573,8 +573,8 @@ export async function requireAuth(
   return session;
 }
 
-export async function requireVerifiedEmail(
-  c: Context<{ Bindings: AuthEnv }>
+export async function requireVerifiedEmail<E extends AuthEnv>(
+  c: Context<{ Bindings: E }>
 ): Promise<SessionValidationResult> {
   const session = await requireAuth(c);
 
@@ -585,8 +585,8 @@ export async function requireVerifiedEmail(
   return session;
 }
 
-export async function requireAdmin(
-  c: Context<{ Bindings: AuthEnv }>
+export async function requireAdmin<E extends AuthEnv>(
+  c: Context<{ Bindings: E }>
 ): Promise<SessionValidationResult> {
   const session = await requireAuth(c);
 
