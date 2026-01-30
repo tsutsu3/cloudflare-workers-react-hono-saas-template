@@ -27,8 +27,10 @@ export default function PurchaseButton({ itemId, itemType }: PurchaseButtonProps
     onSuccess: () => {
       toast.dismiss()
       toast.success("Item purchased successfully!")
+      // Invalidate all relevant queries to update UI
       queryClient.invalidateQueries({ queryKey: ['session'] })
       queryClient.invalidateQueries({ queryKey: ['credits'] })
+      queryClient.invalidateQueries({ queryKey: ['marketplace', 'purchased-items'] })
     },
   })
 

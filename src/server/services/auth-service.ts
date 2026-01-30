@@ -14,6 +14,7 @@ import { SESSION_COOKIE_NAME, MAX_SESSIONS_PER_USER } from "@/shared/constants";
 import { getInitials } from "@/server/utils/name-initials";
 import type { Context } from "hono";
 import { getCookie, setCookie, deleteCookie } from "hono/cookie";
+// Note: addFreeMonthlyCreditsIfNeeded is imported dynamically to avoid circular dependency at module load time
 
 // ============================================================================
 // Types
@@ -503,6 +504,18 @@ export async function validateSessionToken(
     updatedSession.user.initials = getInitials(`${updatedSession.user.firstName} ${updatedSession.user.lastName}`);
 
     return updatedSession;
+  }
+
+  // Check and refresh credits if needed (import dynamically to avoid circular dependency)
+  const { addFreeMonthlyCreditsIfNeeded } = await import("./credits-service");
+  const currentCredits = await addFreeMonthlyCreditsIfNeeded(env, session);
+
+  // If credits were refreshed, update the session
+  if (
+    session?.user?.currentCredits &&
+    currentCredits !== session.user.currentCredits
+  ) {
+    session.user.currentCredits = currentCredits;
   }
 
   session.user.initials = getInitials(`${session.user.firstName} ${session.user.lastName}`);

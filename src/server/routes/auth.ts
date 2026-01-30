@@ -20,6 +20,10 @@ import {
   invalidateSession,
   updateAllSessionsOfUser,
   canSignUp,
+  getAllSessionIdsOfUser,
+  getKVSession,
+  deleteKVSession,
+  updateKVSessionSelectedTeam,
   type AuthEnv,
 } from "@/server/services/auth-service";
 import { hashPassword, verifyPassword } from "@/server/utils/password-hasher";
@@ -282,6 +286,53 @@ auth.post("/sign-out", async (c) => {
 });
 
 // ----------------------------------------------------------------------------
+// POST /update-selected-team - Update the selected team for the session
+// ----------------------------------------------------------------------------
+auth.post(
+  "/update-selected-team",
+  rateLimitMiddleware(RATE_LIMITS.SESSION),
+  zValidator("json", z.object({ selectedTeam: z.string().optional() })),
+  async (c) => {
+    const { selectedTeam } = c.req.valid("json");
+
+    try {
+      const session = await getSessionFromCookie(c);
+
+      if (!session) {
+        return c.json({ error: "You must be logged in to update your selected team" }, 403);
+      }
+
+      // Validate that the selected team exists in the user's teams (if provided)
+      if (selectedTeam && session.teams) {
+        const teamExists = session.teams.some(team => team.id === selectedTeam);
+        if (!teamExists) {
+          return c.json({ error: "Team not found or you are not a member" }, 403);
+        }
+      }
+
+      const updatedSession = await updateKVSessionSelectedTeam(
+        c.env,
+        session.id,
+        session.userId,
+        selectedTeam
+      );
+
+      if (!updatedSession) {
+        return c.json({ error: "Failed to update selected team" }, 500);
+      }
+
+      return c.json({
+        success: true,
+        selectedTeam: updatedSession.selectedTeam
+      });
+    } catch (error) {
+      console.error("Failed to update selected team:", error);
+      return c.json({ error: "Failed to update selected team" }, 500);
+    }
+  }
+);
+
+// ----------------------------------------------------------------------------
 // GET /session - Get current session
 // ----------------------------------------------------------------------------
 auth.get(
@@ -308,7 +359,7 @@ auth.get(
             avatar: session.user.avatar,
             emailVerified: session.user.emailVerified,
             role: session.user.role,
-            credits: session.user.currentCredits,
+            currentCredits: session.user.currentCredits,
           },
           teams: session.teams,
           selectedTeamId: session.selectedTeam,
@@ -318,6 +369,103 @@ auth.get(
     } catch (error) {
       console.error("Session error:", error);
       return c.json({ session: null, config }, 200);
+    }
+  }
+);
+
+// ----------------------------------------------------------------------------
+// GET /sessions - Get all user sessions
+// ----------------------------------------------------------------------------
+auth.get(
+  "/sessions",
+  rateLimitMiddleware(RATE_LIMITS.SESSION),
+  async (c) => {
+    try {
+      const session = await getSessionFromCookie(c);
+
+      if (!session) {
+        return c.json({ error: "Not authenticated" }, 401);
+      }
+
+      const sessionIds = await getAllSessionIdsOfUser(c.env, session.user.id);
+      const { UAParser } = await import('ua-parser-js');
+
+      const sessions = await Promise.all(
+        sessionIds.map(async ({ key, absoluteExpiration }) => {
+          const sessionId = key.split(":")[2]; // Format is "session:userId:sessionId"
+          if (!sessionId) return null;
+
+          const sessionData = await getKVSession(c.env, sessionId, session.user.id);
+          if (!sessionData) return null;
+
+          // Parse user agent on the server
+          const result = new UAParser(sessionData.userAgent ?? '').getResult();
+
+          return {
+            ...sessionData,
+            isCurrentSession: sessionId === session.id,
+            expiration: absoluteExpiration,
+            createdAt: sessionData.createdAt ?? 0,
+            parsedUserAgent: {
+              ua: result.ua,
+              browser: {
+                name: result.browser.name,
+                version: result.browser.version,
+                major: result.browser.major
+              },
+              device: {
+                model: result.device.model,
+                type: result.device.type,
+                vendor: result.device.vendor
+              },
+              engine: {
+                name: result.engine.name,
+                version: result.engine.version
+              },
+              os: {
+                name: result.os.name,
+                version: result.os.version
+              }
+            },
+          };
+        })
+      );
+
+      // Filter out any null sessions and sort by creation date
+      const validSessions = sessions
+        .filter((s): s is NonNullable<typeof s> => s !== null && typeof s.createdAt === 'number')
+        .sort((a, b) => b.createdAt - a.createdAt);
+
+      return c.json({ sessions: validSessions });
+    } catch (error) {
+      console.error("Get sessions error:", error);
+      return c.json({ error: "Failed to get sessions" }, 500);
+    }
+  }
+);
+
+// ----------------------------------------------------------------------------
+// DELETE /sessions/:sessionId - Delete a specific session
+// ----------------------------------------------------------------------------
+auth.delete(
+  "/sessions/:sessionId",
+  rateLimitMiddleware(RATE_LIMITS.SESSION),
+  async (c) => {
+    const sessionId = c.req.param("sessionId");
+
+    try {
+      const session = await getSessionFromCookie(c);
+
+      if (!session) {
+        return c.json({ error: "Not authenticated" }, 401);
+      }
+
+      await deleteKVSession(c.env, sessionId, session.user.id);
+
+      return c.json({ success: true });
+    } catch (error) {
+      console.error("Delete session error:", error);
+      return c.json({ error: "Failed to delete session" }, 500);
     }
   }
 );
@@ -711,6 +859,66 @@ auth.post(
     } catch (error) {
       console.error("Passkey authenticate error:", error);
       return c.json({ error: "Passkey authentication failed" }, 403);
+    }
+  }
+);
+
+// ----------------------------------------------------------------------------
+// GET /passkeys - Get user's passkeys
+// ----------------------------------------------------------------------------
+auth.get(
+  "/passkeys",
+  rateLimitMiddleware(RATE_LIMITS.SESSION),
+  async (c) => {
+    const db = getDB(c.env.DB);
+
+    try {
+      const session = await getSessionFromCookie(c);
+      if (!session) {
+        return c.json({ error: "Not authenticated" }, 401);
+      }
+
+      const passkeys = await db
+        .select()
+        .from(passKeyCredentialTable)
+        .where(eq(passKeyCredentialTable.userId, session.user.id));
+
+      // Parse user agent for each passkey
+      const { UAParser } = await import('ua-parser-js');
+      const passkeysWithParsedUA = passkeys.map((passkey) => {
+        const userAgent = passkey.userAgent ?? null;
+        const result = new UAParser(userAgent ?? '').getResult();
+        return {
+          ...passkey,
+          userAgent: userAgent ?? null,
+          parsedUserAgent: {
+            ua: userAgent ?? '',
+            browser: {
+              name: result.browser.name,
+              version: result.browser.version,
+              major: result.browser.major
+            },
+            device: {
+              model: result.device.model,
+              type: result.device.type,
+              vendor: result.device.vendor
+            },
+            engine: {
+              name: result.engine.name,
+              version: result.engine.version
+            },
+            os: {
+              name: result.os.name,
+              version: result.os.version
+            }
+          }
+        };
+      });
+
+      return c.json({ passkeys: passkeysWithParsedUA });
+    } catch (error) {
+      console.error("Get passkeys error:", error);
+      return c.json({ error: "Failed to get passkeys" }, 500);
     }
   }
 );

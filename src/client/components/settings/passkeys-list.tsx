@@ -40,7 +40,7 @@ function PasskeyRegistrationButton({ email, className, onSuccess }: PasskeyRegis
       });
 
       // Send the response back to the server for verification
-      await apiClient.post('/auth/passkey/register-verify', {
+      await apiClient.post('/auth/passkey/register', {
         email,
         response: registrationResponse,
         challenge: options.challenge,
@@ -91,7 +91,7 @@ export function PasskeysList({ passkeys, currentPasskeyId, email }: PasskeysList
 
   const deletePasskeyMutation = useMutation({
     mutationFn: async (credentialId: string) => {
-      const response = await apiClient.post('/auth/passkey/delete', { credentialId });
+      const response = await apiClient.delete(`/auth/passkey/${credentialId}`);
       return response.data;
     },
     onSuccess: () => {

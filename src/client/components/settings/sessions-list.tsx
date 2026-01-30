@@ -34,7 +34,7 @@ export function SessionsList({ sessions }: { sessions: SessionWithMeta[] }) {
 
   const deleteSessionMutation = useMutation({
     mutationFn: async (sessionId: string) => {
-      const response = await apiClient.post('/auth/sessions/delete', { sessionId });
+      const response = await apiClient.delete(`/auth/sessions/${sessionId}`);
       return response.data;
     },
     onSuccess: () => {

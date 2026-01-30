@@ -34,12 +34,37 @@ import {
   MAX_TEAMS_CREATED_PER_USER,
   MAX_TEAMS_JOINED_PER_USER,
 } from "@/shared/constants";
+import { hasTeamMembership, hasTeamPermission } from "@/server/utils/team-auth";
 
 // ============================================================================
 // Types
 // ============================================================================
 
 export interface TeamsRoutesEnv extends AuthEnv, EmailEnv {}
+
+// ============================================================================
+// Helper Functions
+// ============================================================================
+
+/**
+ * Resolve a team by slug or ID
+ * Returns the team if found, null otherwise
+ */
+async function resolveTeam(db: ReturnType<typeof getDB>, slugOrId: string) {
+  // First try to find by slug
+  let team = await db.query.teamTable.findFirst({
+    where: eq(teamTable.slug, slugOrId),
+  });
+
+  // If not found by slug, try by ID
+  if (!team) {
+    team = await db.query.teamTable.findFirst({
+      where: eq(teamTable.id, slugOrId),
+    });
+  }
+
+  return team;
+}
 
 // ============================================================================
 // Schemas
@@ -236,28 +261,96 @@ teams.post(
 );
 
 // ----------------------------------------------------------------------------
-// GET /:teamId - Get team details
+// GET /:teamIdOrSlug - Get team details (accepts both team ID and slug)
 // ----------------------------------------------------------------------------
 teams.get(
-  "/:teamId",
+  "/:teamIdOrSlug",
   rateLimitMiddleware(RATE_LIMITS.TEAMS),
   async (c) => {
-    const teamId = c.req.param("teamId");
+    const teamIdOrSlug = c.req.param("teamIdOrSlug");
 
     try {
-      await requireTeamPermission(c, teamId, TEAM_PERMISSIONS.ACCESS_DASHBOARD);
-
       const db = getDB(c.env.DB);
 
-      const team = await db.query.teamTable.findFirst({
-        where: eq(teamTable.id, teamId),
-      });
+      // First resolve the team by slug or ID
+      const team = await resolveTeam(db, teamIdOrSlug);
 
       if (!team) {
         return c.json({ error: "Team not found" }, 404);
       }
 
-      return c.json({ team });
+      const teamId = team.id;
+
+      // Check if user has access to the team
+      const { hasAccess, session } = await hasTeamMembership(c, teamId);
+
+      if (!hasAccess || !session) {
+        return c.json({ error: `You don't have permission to access team "${team.name}"` }, 403);
+      }
+
+      // Get user's role and permissions for this team
+      const userTeam = session.teams?.find(t => t.id === teamId);
+      const userRole = userTeam?.role.name || "Member";
+
+      // Check specific permissions
+      const canInviteMembers = await hasTeamPermission(c, teamId, TEAM_PERMISSIONS.INVITE_MEMBERS);
+      const canRemoveMembers = await hasTeamPermission(c, teamId, TEAM_PERMISSIONS.REMOVE_MEMBERS);
+      const canEditTeam = await hasTeamPermission(c, teamId, TEAM_PERMISSIONS.EDIT_TEAM_SETTINGS);
+
+      // Get team members with user details
+      const members = await db.query.teamMembershipTable.findMany({
+        where: eq(teamMembershipTable.teamId, teamId),
+        with: {
+          user: {
+            columns: {
+              id: true,
+              firstName: true,
+              lastName: true,
+              email: true,
+              avatar: true,
+            },
+          },
+        },
+      });
+
+      // Get all team roles for this team
+      const teamRoles = await db.query.teamRoleTable.findMany({
+        where: eq(teamRoleTable.teamId, teamId),
+      });
+
+      const roleMap = new Map(teamRoles.map(role => [role.id, role.name]));
+
+      const formattedMembers = members.map(member => {
+        let roleName = "Unknown";
+
+        if (member.isSystemRole) {
+          roleName = member.roleId.charAt(0).toUpperCase() + member.roleId.slice(1);
+        } else {
+          roleName = roleMap.get(member.roleId) || "Custom Role";
+        }
+
+        return {
+          id: member.id,
+          userId: member.userId,
+          roleId: member.roleId,
+          roleName,
+          isSystemRole: Boolean(member.isSystemRole),
+          isActive: Boolean(member.isActive),
+          joinedAt: member.joinedAt ? new Date(member.joinedAt).toISOString() : null,
+          user: member.user,
+        };
+      });
+
+      return c.json({
+        team,
+        members: formattedMembers,
+        permissions: {
+          canInviteMembers,
+          canRemoveMembers,
+          canEditTeam,
+        },
+        userRole,
+      });
     } catch (error) {
       console.error("Get team error:", error);
       if (error instanceof Error) {
