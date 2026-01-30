@@ -23,7 +23,7 @@ function RootLayout() {
       disableTransitionOnChange
     >
       <Outlet />
-      <Toaster position="top-right" richColors closeButton />
+      <Toaster position="top-right" richColors closeButton expand duration={7000} />
       {import.meta.env.DEV && (
         <>
           <TanStackRouterDevtools position="bottom-right" />

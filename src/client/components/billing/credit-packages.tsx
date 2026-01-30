@@ -36,6 +36,7 @@ export function CreditPackages() {
   const [selectedPackage, setSelectedPackage] = useState<CreditPackage | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const session = useSessionStore((state) => state);
+  const fetchSession = useSessionStore((state) => state.fetchSession);
   const transactionsRefresh = useTransactionStore((state) => state.triggerRefresh);
   const config = useConfigStore((state) => state.config);
   const sessionIsLoading = session?.isLoading;
@@ -54,12 +55,12 @@ export function CreditPackages() {
     }
   };
 
-  const handleSuccess = () => {
+  const handleSuccess = async () => {
     setIsDialogOpen(false);
     setSelectedPackage(null);
     setClientSecret(null);
-    // Refresh the page to get updated credits
-    window.location.reload();
+    // Refresh session to get updated credits
+    await fetchSession?.();
     transactionsRefresh();
   };
 

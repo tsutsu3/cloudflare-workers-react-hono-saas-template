@@ -3,7 +3,7 @@
  * Adapted from _ref/src/utils/email.tsx
  */
 
-import { SITE_DOMAIN, SITE_URL } from "@/shared/constants";
+import { SITE_DOMAIN } from "@/shared/constants";
 import { render } from '@react-email/render';
 import { ResetPasswordEmail } from "@/react-email/reset-password";
 import { VerifyEmail } from "@/react-email/verify-email";
@@ -16,11 +16,16 @@ import { isProd } from "@/server/utils/is-prod";
 
 export interface EmailEnv {
   ENVIRONMENT?: string;
+  SITE_URL?: string;
   RESEND_API_KEY?: string;
   BREVO_API_KEY?: string;
   EMAIL_REPLY_TO?: string;
   EMAIL_FROM_NAME?: string;
   EMAIL_FROM?: string;
+}
+
+function getSiteUrl(env: EmailEnv): string {
+  return env.SITE_URL || "http://localhost:3000";
 }
 
 interface BrevoEmailOptions {
@@ -183,7 +188,7 @@ export async function sendPasswordResetEmail(
     username: string;
   }
 ) {
-  const resetUrl = `${SITE_URL}/reset-password?token=${resetToken}`;
+  const resetUrl = `${getSiteUrl(env)}/reset-password?token=${resetToken}`;
 
   if (!isProd(env)) {
     console.warn('\n\n\nPassword reset url: ', resetUrl);
@@ -226,7 +231,7 @@ export async function sendVerificationEmail(
     username: string;
   }
 ) {
-  const verificationUrl = `${SITE_URL}/verify-email?token=${verificationToken}`;
+  const verificationUrl = `${getSiteUrl(env)}/verify-email?token=${verificationToken}`;
 
   if (!isProd(env)) {
     console.warn('\n\n\nVerification url: ', verificationUrl);
@@ -271,7 +276,7 @@ export async function sendTeamInvitationEmail(
     inviterName: string;
   }
 ) {
-  const inviteUrl = `${SITE_URL}/team-invite?token=${invitationToken}`;
+  const inviteUrl = `${getSiteUrl(env)}/team-invite?token=${invitationToken}`;
 
   if (!isProd(env)) {
     console.warn('\n\n\nTeam invitation url: ', inviteUrl);

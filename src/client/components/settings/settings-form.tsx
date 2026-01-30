@@ -34,17 +34,21 @@ export function SettingsForm() {
       toast.dismiss();
       toast.error(error.response?.data?.error || "Failed to update profile");
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.dismiss();
       toast.success("Profile updated successfully");
       // Refresh session to get updated data
-      window.location.reload();
+      await fetchSession?.();
     }
   });
 
-  const { session, isLoading } = useSessionStore();
+  const { session, isLoading, fetchSession } = useSessionStore();
   const form = useForm<z.infer<typeof userSettingsSchema>>({
-    resolver: zodResolver(userSettingsSchema)
+    resolver: zodResolver(userSettingsSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+    },
   });
 
   useEffect(() => {

@@ -53,6 +53,7 @@ import {
   REDIRECT_AFTER_SIGN_IN,
 } from "@/shared/constants";
 import { isProd } from "@/server/utils/is-prod";
+import { getConfig } from "@/server/utils/flags";
 import { generateState, generateCodeVerifier, decodeIdToken } from "arctic";
 import type { RegistrationResponseJSON, AuthenticationResponseJSON, PublicKeyCredentialCreationOptionsJSON } from "@simplewebauthn/types";
 
@@ -287,31 +288,36 @@ auth.get(
   "/session",
   rateLimitMiddleware(RATE_LIMITS.SESSION),
   async (c) => {
+    const config = getConfig(c.env);
+
     try {
       const session = await getSessionFromCookie(c);
 
       if (!session) {
-        return c.json({ authenticated: false }, 200);
+        return c.json({ session: null, config }, 200);
       }
 
       return c.json({
-        authenticated: true,
-        user: {
-          id: session.user.id,
-          email: session.user.email,
-          firstName: session.user.firstName,
-          lastName: session.user.lastName,
-          avatar: session.user.avatar,
-          emailVerified: session.user.emailVerified,
-          role: session.user.role,
-          credits: session.user.currentCredits,
+        session: {
+          authenticated: true,
+          user: {
+            id: session.user.id,
+            email: session.user.email,
+            firstName: session.user.firstName,
+            lastName: session.user.lastName,
+            avatar: session.user.avatar,
+            emailVerified: session.user.emailVerified,
+            role: session.user.role,
+            credits: session.user.currentCredits,
+          },
+          teams: session.teams,
+          selectedTeamId: session.selectedTeam,
         },
-        teams: session.teams,
-        selectedTeamId: session.selectedTeam,
+        config,
       });
     } catch (error) {
       console.error("Session error:", error);
-      return c.json({ authenticated: false }, 200);
+      return c.json({ session: null, config }, 200);
     }
   }
 );

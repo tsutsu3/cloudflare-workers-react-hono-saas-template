@@ -524,12 +524,15 @@ export function setSessionTokenCookie(
   userId: string,
   expiresAt: Date
 ): void {
+  const isProduction = isProd(c.env);
   setCookie(c, SESSION_COOKIE_NAME, encodeSessionCookie(userId, token), {
     httpOnly: true,
-    sameSite: isProd(c.env) ? "Strict" : "Lax",
-    secure: isProd(c.env),
+    sameSite: isProduction ? "Strict" : "Lax",
+    secure: isProduction,
     expires: expiresAt,
     path: "/",
+    // In development, explicitly set domain to ensure cookie works with Vite proxy
+    ...(isProduction ? {} : { domain: "localhost" }),
   });
 }
 

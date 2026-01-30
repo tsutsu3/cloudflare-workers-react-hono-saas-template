@@ -9,6 +9,7 @@ import { googleSSOCallbackSchema } from "@/shared/schemas/google-sso-callback.sc
 import { Spinner } from "@/client/components/ui/spinner";
 import { REDIRECT_AFTER_SIGN_IN } from "@/shared/constants";
 import NavFooterLayout from "@/client/layouts/NavFooterLayout";
+import { useSessionStore } from "@/client/state/session";
 
 export const Route = createFileRoute('/sso/google/callback' as const)({
   component: GoogleCallbackRoute,
@@ -23,6 +24,7 @@ export const Route = createFileRoute('/sso/google/callback' as const)({
 function GoogleCallbackRoute() {
   const navigate = useNavigate();
   const { code, state } = useSearch({ from: '/sso/google/callback' });
+  const fetchSession = useSessionStore((state) => state.fetchSession);
   const hasCalledCallback = useRef(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -40,10 +42,11 @@ function GoogleCallbackRoute() {
       toast.error(message);
       setError(message);
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.dismiss();
       toast.success("Signed in successfully");
-      window.location.href = REDIRECT_AFTER_SIGN_IN;
+      await fetchSession?.();
+      navigate({ to: REDIRECT_AFTER_SIGN_IN });
     },
   });
 

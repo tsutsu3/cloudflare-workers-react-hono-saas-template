@@ -1,7 +1,5 @@
 import { z } from "zod";
 
-const turnstileEnabled = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY)
-
-export const catchaSchema = turnstileEnabled
-  ? z.string().min(1, 'Please complete the captcha')
-  : z.string().optional()
+// Captcha token is optional on the schema level
+// Server-side validation enforces it when TURNSTILE_SECRET_KEY is configured
+export const catchaSchema = z.string().optional();

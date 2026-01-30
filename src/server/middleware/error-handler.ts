@@ -158,9 +158,8 @@ export const errorHandler: ErrorHandler = (err, c) => {
       statusCode = 404;
       response.error = err.message;
     } else {
-      // Generic server error - don't expose internal details in production
+      // Generic server error - don't expose internal details
       response.error = "An unexpected error occurred";
-      response.message = process.env.NODE_ENV === "development" ? err.message : undefined;
     }
   }
 

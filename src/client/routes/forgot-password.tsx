@@ -36,6 +36,9 @@ function ForgotPasswordRoute() {
 
   const form = useForm<ForgotPasswordSchema>({
     resolver: zodResolver(forgotPasswordSchema),
+    defaultValues: {
+      email: '',
+    },
   });
 
   useEffect(() => {

@@ -5,7 +5,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/client/components/ui/card";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/client/lib/api-client";
 import { Badge } from "@/client/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
@@ -30,6 +30,7 @@ const regionNames = new Intl.DisplayNames(['en'], { type: 'region' });
 
 export function SessionsList({ sessions }: { sessions: SessionWithMeta[] }) {
   const dialogCloseRef = React.useRef<HTMLButtonElement>(null);
+  const queryClient = useQueryClient();
 
   const deleteSessionMutation = useMutation({
     mutationFn: async (sessionId: string) => {
@@ -39,8 +40,8 @@ export function SessionsList({ sessions }: { sessions: SessionWithMeta[] }) {
     onSuccess: () => {
       toast.success("Session deleted");
       dialogCloseRef.current?.click();
-      // Refresh the page to get updated sessions list
-      window.location.reload();
+      // Refresh the sessions list
+      queryClient.invalidateQueries({ queryKey: ['sessions'] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.error || "Failed to delete session");

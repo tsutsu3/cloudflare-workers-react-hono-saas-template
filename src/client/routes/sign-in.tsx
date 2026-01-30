@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useSearch } from '@tanstack/react-router';
+import { createFileRoute, Link, useSearch, useNavigate } from '@tanstack/react-router';
 import { type SignInSchema, signInSchema } from "@/shared/schemas/signin.schema";
 import { type ReactNode, useState } from "react";
 
@@ -17,6 +17,7 @@ import SSOButtons from "@/client/components/auth/sso-buttons";
 import { KeyIcon } from "lucide-react";
 import { startAuthentication } from "@simplewebauthn/browser";
 import { REDIRECT_AFTER_SIGN_IN } from "@/shared/constants";
+import { useSessionStore } from "@/client/state/session";
 
 export const Route = createFileRoute('/sign-in' as const)({
   component: SignInRoute,
@@ -31,10 +32,10 @@ interface PasskeyAuthenticationButtonProps {
   className?: string;
   disabled?: boolean;
   children?: ReactNode;
-  redirectPath: string;
+  onSuccess: () => void | Promise<void>;
 }
 
-function PasskeyAuthenticationButton({ className, disabled, children, redirectPath }: PasskeyAuthenticationButtonProps) {
+function PasskeyAuthenticationButton({ className, disabled, children, onSuccess }: PasskeyAuthenticationButtonProps) {
   const [isAuthenticating, setIsAuthenticating] = useState(false);
 
   const generateOptionsMutation = useMutation({
@@ -49,10 +50,10 @@ function PasskeyAuthenticationButton({ className, disabled, children, redirectPa
       const response = await apiClient.post('/auth/passkey/authenticate', data);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.dismiss();
       toast.success("Authentication successful");
-      window.location.href = redirectPath;
+      await onSuccess();
     },
     onError: (error: any) => {
       toast.dismiss();
@@ -105,6 +106,13 @@ function PasskeyAuthenticationButton({ className, disabled, children, redirectPa
 function SignInRoute() {
   const { redirect } = useSearch({ from: '/sign-in' });
   const redirectPath = redirect || REDIRECT_AFTER_SIGN_IN;
+  const fetchSession = useSessionStore((state) => state.fetchSession);
+  const navigate = useNavigate();
+
+  const handleAuthSuccess = async () => {
+    await fetchSession?.();
+    navigate({ to: redirectPath });
+  };
 
   const signInMutation = useMutation({
     mutationFn: async (data: SignInSchema) => {
@@ -118,15 +126,19 @@ function SignInRoute() {
       toast.dismiss();
       toast.error(error.response?.data?.error || "An error occurred");
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.dismiss();
       toast.success("Signed in successfully");
-      window.location.href = redirectPath;
+      await handleAuthSuccess();
     },
   });
 
   const form = useForm<SignInSchema>({
     resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+    },
   });
 
   const onSubmit = async (data: SignInSchema) => {
@@ -152,7 +164,7 @@ function SignInRoute() {
           <div className="space-y-4">
             <SSOButtons isSignIn />
 
-            <PasskeyAuthenticationButton className="w-full" redirectPath={redirectPath}>
+            <PasskeyAuthenticationButton className="w-full" onSuccess={handleAuthSuccess}>
               <KeyIcon className="w-5 h-5 mr-2" />
               Sign in with a Passkey
             </PasskeyAuthenticationButton>

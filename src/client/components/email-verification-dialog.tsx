@@ -76,16 +76,15 @@ export function EmailVerificationDialog() {
           <DialogDescription>
             Please verify your email address to access all features. We sent a verification link to {session.user.email}.
             The verification link will expire in {Math.floor(EMAIL_VERIFICATION_TOKEN_EXPIRATION_SECONDS / 3600)} hours.
-
-            {isDev && (
-              <Alert
-                color="warning"
-                title="Development mode"
-                description="You can find the verification link in the console."
-                className="mt-4 mb-2"
-              />
-            )}
           </DialogDescription>
+          {isDev && (
+            <Alert
+              color="warning"
+              title="Development mode"
+              description="You can find the verification link in the console."
+              className="mt-4 mb-2"
+            />
+          )}
         </DialogHeader>
         <div className="flex flex-col gap-4">
           <Button

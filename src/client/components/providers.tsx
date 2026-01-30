@@ -35,7 +35,9 @@ export function ThemeProvider({
   const doFetchSession = useCallback(async () => {
     try {
       refetchSession() // Set loading state before fetch
-      const response = await fetch('/api/auth/session')
+      const response = await fetch('/api/auth/session', {
+        credentials: 'include', // Include cookies in the request
+      })
       const sessionWithConfig = await response.json() as {
         session: SessionValidationResult
         config: Awaited<ReturnType<typeof getConfig>>

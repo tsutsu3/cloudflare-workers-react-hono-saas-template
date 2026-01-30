@@ -1,13 +1,11 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
-import tailwindcss from '@tailwindcss/vite';
 import path from 'path';
 
 export default defineConfig({
   plugins: [
     react(),
-    tailwindcss(),
     TanStackRouterVite({
       routesDirectory: './src/client/routes',
       generatedRouteTree: './src/client/routeTree.gen.ts',
@@ -33,6 +31,8 @@ export default defineConfig({
       '/api': {
         target: 'http://localhost:8787',
         changeOrigin: true,
+        // Forward cookies properly between frontend (3000) and backend (8787)
+        cookieDomainRewrite: 'localhost',
       },
     },
   },

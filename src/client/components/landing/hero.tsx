@@ -51,7 +51,7 @@ function TotalUsersButton() {
     queryFn: async () => {
       try {
         const response = await apiClient.get('/stats/total-users');
-        return response.data.totalUsers as number;
+        return (response.data.totalUsers as number) ?? null;
       } catch {
         return null;
       }

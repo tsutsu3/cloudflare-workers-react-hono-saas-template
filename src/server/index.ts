@@ -7,6 +7,8 @@ import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
 import { secureHeaders } from "hono/secure-headers";
+import { getDB } from "@/db";
+import { userTable } from "@/db/schema";
 
 // Import routes
 import authRoutes from "./routes/auth";
@@ -135,6 +137,21 @@ app.get("/api/config", (c) => {
     isCreditBillingEnabled: Boolean(c.env.STRIPE_SECRET_KEY),
     STRIPE_PUBLISHABLE_KEY: c.env.STRIPE_PUBLISHABLE_KEY || undefined,
   });
+});
+
+// ============================================================================
+// Stats API
+// ============================================================================
+
+app.get("/api/stats/total-users", async (c) => {
+  try {
+    const db = getDB(c.env.DB);
+    const count = await db.$count(userTable);
+    return c.json({ totalUsers: count });
+  } catch (error) {
+    console.error("Error fetching total users:", error);
+    return c.json({ totalUsers: 0 });
+  }
 });
 
 // ============================================================================

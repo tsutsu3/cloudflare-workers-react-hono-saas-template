@@ -6,7 +6,7 @@ import { Card, CardDescription, CardHeader, CardTitle } from "@/client/component
 import { Badge } from "@/client/components/ui/badge";
 import { formatDistanceToNow } from "date-fns";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger, DialogClose } from "@/client/components/ui/dialog";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiClient } from "@/client/lib/api-client";
 import { PASSKEY_AUTHENTICATOR_IDS } from "@/shared/passkey-authenticator-ids";
 import { cn } from "@/client/lib/utils";
@@ -20,6 +20,7 @@ interface PasskeyRegistrationButtonProps {
 
 function PasskeyRegistrationButton({ email, className, onSuccess }: PasskeyRegistrationButtonProps) {
   const [isRegistering, setIsRegistering] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleRegister = async () => {
     try {
@@ -47,8 +48,8 @@ function PasskeyRegistrationButton({ email, className, onSuccess }: PasskeyRegis
 
       toast.success("Passkey registered successfully");
       onSuccess?.();
-      // Refresh the page to get updated passkeys list
-      window.location.reload();
+      // Refresh the passkeys list
+      queryClient.invalidateQueries({ queryKey: ['passkeys'] });
     } catch (error) {
       console.error("Passkey registration error:", error);
       toast.error("Failed to register passkey");
@@ -86,6 +87,7 @@ interface PasskeysListProps {
 
 export function PasskeysList({ passkeys, currentPasskeyId, email }: PasskeysListProps) {
   const dialogCloseRef = useRef<HTMLButtonElement>(null);
+  const queryClient = useQueryClient();
 
   const deletePasskeyMutation = useMutation({
     mutationFn: async (credentialId: string) => {
@@ -95,8 +97,8 @@ export function PasskeysList({ passkeys, currentPasskeyId, email }: PasskeysList
     onSuccess: () => {
       toast.success("Passkey deleted");
       dialogCloseRef.current?.click();
-      // Refresh the page to get updated passkeys list
-      window.location.reload();
+      // Refresh the passkeys list
+      queryClient.invalidateQueries({ queryKey: ['passkeys'] });
     },
     onError: (error: any) => {
       toast.error(error.response?.data?.error || "Failed to delete passkey");

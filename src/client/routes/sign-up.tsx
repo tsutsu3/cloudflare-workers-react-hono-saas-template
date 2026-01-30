@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useSearch } from '@tanstack/react-router';
+import { createFileRoute, Link, useSearch, useNavigate } from '@tanstack/react-router';
 import { type SignUpSchema, signUpSchema } from "@/shared/schemas/signup.schema";
 import { type PasskeyEmailSchema, passkeyEmailSchema } from "@/shared/schemas/passkey.schema";
 
@@ -21,6 +21,7 @@ import { useState } from "react";
 import { startRegistration } from "@simplewebauthn/browser";
 import { KeyIcon } from 'lucide-react';
 import { useConfigStore } from "@/client/state/config";
+import { useSessionStore } from "@/client/state/session";
 import { REDIRECT_AFTER_SIGN_IN } from "@/shared/constants";
 
 export const Route = createFileRoute('/sign-up' as const)({
@@ -36,6 +37,8 @@ function SignUpRoute() {
   const { redirect } = useSearch({ from: '/sign-up' });
   const redirectPath = redirect || REDIRECT_AFTER_SIGN_IN;
   const { isTurnstileEnabled } = useConfigStore();
+  const fetchSession = useSessionStore((state) => state.fetchSession);
+  const navigate = useNavigate();
   const [isPasskeyModalOpen, setIsPasskeyModalOpen] = useState(false);
   const [isRegistering, setIsRegistering] = useState(false);
 
@@ -51,10 +54,11 @@ function SignUpRoute() {
       toast.dismiss();
       toast.error(error.response?.data?.error || "An error occurred");
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.dismiss();
       toast.success("Account created successfully");
-      window.location.href = redirectPath || REDIRECT_AFTER_SIGN_IN;
+      await fetchSession?.();
+      navigate({ to: redirectPath || REDIRECT_AFTER_SIGN_IN });
     },
   });
 
@@ -70,10 +74,11 @@ function SignUpRoute() {
       const response = await apiClient.post('/auth/passkey/register', data);
       return response.data;
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.dismiss();
       toast.success("Account created successfully");
-      window.location.href = redirectPath || REDIRECT_AFTER_SIGN_IN;
+      await fetchSession?.();
+      navigate({ to: redirectPath || REDIRECT_AFTER_SIGN_IN });
     },
     onError: (error: any) => {
       toast.dismiss();
@@ -84,10 +89,21 @@ function SignUpRoute() {
 
   const form = useForm<SignUpSchema>({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+      password: '',
+    },
   });
 
   const passkeyForm = useForm<PasskeyEmailSchema>({
     resolver: zodResolver(passkeyEmailSchema),
+    defaultValues: {
+      email: '',
+      firstName: '',
+      lastName: '',
+    },
   });
 
   const captchaToken = useWatch({ control: form.control, name: 'captchaToken' });
