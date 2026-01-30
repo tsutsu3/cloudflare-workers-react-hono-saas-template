@@ -52,6 +52,10 @@ declare module '@tanstack/react-router' {
     '/sso/google': { id: '/sso/google'; path: '/sso/google'; fullPath: '/sso/google'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
     '/sso/google/': { id: '/sso/google/'; path: '/sso/google/'; fullPath: '/sso/google/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
     '/sso/google/callback': { id: '/sso/google/callback'; path: '/sso/google/callback'; fullPath: '/sso/google/callback'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/dashboard/': { id: '/dashboard/'; path: '/dashboard/'; fullPath: '/dashboard/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/settings/': { id: '/settings/'; path: '/settings/'; fullPath: '/settings/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/settings/security': { id: '/settings/security'; path: '/settings/security'; fullPath: '/settings/security'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/settings/sessions': { id: '/settings/sessions'; path: '/settings/sessions'; fullPath: '/settings/sessions'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
   }
 }
 
@@ -64,7 +68,11 @@ export interface FileRoutesByFullPath {
   '/sign-in': typeof IndexRoute
   '/sign-up': typeof IndexRoute
   '/settings': typeof IndexRoute
+  '/settings/': typeof IndexRoute
+  '/settings/security': typeof IndexRoute
+  '/settings/sessions': typeof IndexRoute
   '/dashboard': typeof IndexRoute
+  '/dashboard/': typeof IndexRoute
   '/dashboard/billing': typeof IndexRoute
   '/dashboard/teams': typeof IndexRoute
   '/dashboard/teams/create': typeof IndexRoute
@@ -85,7 +93,11 @@ export interface FileRoutesByTo {
   '/sign-in': typeof IndexRoute
   '/sign-up': typeof IndexRoute
   '/settings': typeof IndexRoute
+  '/settings/': typeof IndexRoute
+  '/settings/security': typeof IndexRoute
+  '/settings/sessions': typeof IndexRoute
   '/dashboard': typeof IndexRoute
+  '/dashboard/': typeof IndexRoute
   '/dashboard/billing': typeof IndexRoute
   '/dashboard/teams': typeof IndexRoute
   '/dashboard/teams/create': typeof IndexRoute
@@ -106,10 +118,10 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
+  fullPaths: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
-  id: '__root__' | '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
+  to: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
+  id: '__root__' | '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
   fileRoutesById: FileRoutesById
 }
 

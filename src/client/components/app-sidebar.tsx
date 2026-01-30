@@ -1,7 +1,4 @@
-"use client"
-
 import { type ComponentType, useEffect, useState } from "react"
-import type { Route } from 'next'
 
 import {
   Building2,
@@ -31,7 +28,7 @@ import { DISABLE_CREDIT_BILLING_SYSTEM } from "@/shared/constants"
 
 export type NavItem = {
   title: string
-  url: Route
+  url: string
   icon?: ComponentType
 }
 
@@ -92,12 +89,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       },
       {
         title: "Teams",
-        url: "/dashboard/teams" as Route,
+        url: "/dashboard/teams" ,
         icon: Users,
       },
       ...(!DISABLE_CREDIT_BILLING_SYSTEM ? [{
         title: "Marketplace",
-        url: "/dashboard/marketplace" as Route,
+        url: "/dashboard/marketplace" ,
         icon: ShoppingCart,
       }] : []),
       {
