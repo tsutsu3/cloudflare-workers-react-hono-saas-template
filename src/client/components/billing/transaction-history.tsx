@@ -49,7 +49,7 @@ export function TransactionHistory() {
     const fetchTransactions = async () => {
       setIsLoading(true);
       try {
-        const response = await apiClient.get('/billing/transactions', {
+        const response = await apiClient.get('/credits/transactions', {
           params: { page }
         });
         setData(response.data);

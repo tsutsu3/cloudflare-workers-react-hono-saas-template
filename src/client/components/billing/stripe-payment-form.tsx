@@ -50,7 +50,7 @@ function PaymentForm({ packageId, clientSecret, onSuccess, onCancel, credits, pr
         // The payment was successful
         const paymentIntent = await stripe.retrievePaymentIntent(clientSecret);
         if (paymentIntent.paymentIntent) {
-          const response = await apiClient.post('/billing/confirm-payment', {
+          const response = await apiClient.post('/credits/confirm-payment', {
             packageId,
             paymentIntentId: paymentIntent.paymentIntent.id,
           });

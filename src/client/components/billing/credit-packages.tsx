@@ -42,7 +42,7 @@ export function CreditPackages() {
 
   const handlePurchase = async (pkg: CreditPackage) => {
     try {
-      const response = await apiClient.post('/billing/create-payment-intent', {
+      const response = await apiClient.post('/credits/payment-intent', {
         packageId: pkg.id,
       });
       setClientSecret(response.data.clientSecret);

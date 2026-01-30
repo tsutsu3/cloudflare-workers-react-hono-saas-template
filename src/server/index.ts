@@ -45,6 +45,7 @@ export interface Env {
   GOOGLE_CLIENT_SECRET?: string;
 
   // Stripe
+  STRIPE_PUBLISHABLE_KEY?: string;
   STRIPE_SECRET_KEY?: string;
   STRIPE_WEBHOOK_SECRET?: string;
 
@@ -132,6 +133,7 @@ app.get("/api/config", (c) => {
     isGoogleSSOEnabled: Boolean(c.env.GOOGLE_CLIENT_ID && c.env.GOOGLE_CLIENT_SECRET),
     isTurnstileEnabled: Boolean(c.env.TURNSTILE_SECRET_KEY),
     isCreditBillingEnabled: Boolean(c.env.STRIPE_SECRET_KEY),
+    STRIPE_PUBLISHABLE_KEY: c.env.STRIPE_PUBLISHABLE_KEY || undefined,
   });
 });
 
