@@ -46,6 +46,12 @@ declare module '@tanstack/react-router' {
     '/dashboard/teams/create': { id: '/dashboard/teams/create'; path: '/dashboard/teams/create'; fullPath: '/dashboard/teams/create'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
     '/admin': { id: '/admin'; path: '/admin'; fullPath: '/admin'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
     '/forgot-password': { id: '/forgot-password'; path: '/forgot-password'; fullPath: '/forgot-password'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/reset-password': { id: '/reset-password'; path: '/reset-password'; fullPath: '/reset-password'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/verify-email': { id: '/verify-email'; path: '/verify-email'; fullPath: '/verify-email'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/team-invite': { id: '/team-invite'; path: '/team-invite'; fullPath: '/team-invite'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/sso/google': { id: '/sso/google'; path: '/sso/google'; fullPath: '/sso/google'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/sso/google/': { id: '/sso/google/'; path: '/sso/google/'; fullPath: '/sso/google/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/sso/google/callback': { id: '/sso/google/callback'; path: '/sso/google/callback'; fullPath: '/sso/google/callback'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
   }
 }
 
@@ -64,6 +70,12 @@ export interface FileRoutesByFullPath {
   '/dashboard/teams/create': typeof IndexRoute
   '/admin': typeof IndexRoute
   '/forgot-password': typeof IndexRoute
+  '/reset-password': typeof IndexRoute
+  '/verify-email': typeof IndexRoute
+  '/team-invite': typeof IndexRoute
+  '/sso/google': typeof IndexRoute
+  '/sso/google/': typeof IndexRoute
+  '/sso/google/callback': typeof IndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -79,6 +91,12 @@ export interface FileRoutesByTo {
   '/dashboard/teams/create': typeof IndexRoute
   '/admin': typeof IndexRoute
   '/forgot-password': typeof IndexRoute
+  '/reset-password': typeof IndexRoute
+  '/verify-email': typeof IndexRoute
+  '/team-invite': typeof IndexRoute
+  '/sso/google': typeof IndexRoute
+  '/sso/google/': typeof IndexRoute
+  '/sso/google/callback': typeof IndexRoute
 }
 
 export interface FileRoutesById {
@@ -88,10 +106,10 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password'
+  fullPaths: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password'
-  id: '__root__' | '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password'
+  to: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
+  id: '__root__' | '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/dashboard' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
   fileRoutesById: FileRoutesById
 }
 
