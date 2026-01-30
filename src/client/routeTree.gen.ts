@@ -56,6 +56,10 @@ declare module '@tanstack/react-router' {
     '/settings/': { id: '/settings/'; path: '/settings/'; fullPath: '/settings/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
     '/settings/security': { id: '/settings/security'; path: '/settings/security'; fullPath: '/settings/security'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
     '/settings/sessions': { id: '/settings/sessions'; path: '/settings/sessions'; fullPath: '/settings/sessions'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/dashboard/teams/': { id: '/dashboard/teams/'; path: '/dashboard/teams/'; fullPath: '/dashboard/teams/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/dashboard/teams/$teamSlug': { id: '/dashboard/teams/$teamSlug'; path: '/dashboard/teams/$teamSlug'; fullPath: '/dashboard/teams/$teamSlug'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/admin/': { id: '/admin/'; path: '/admin/'; fullPath: '/admin/'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
+    '/admin/users/$userId': { id: '/admin/users/$userId'; path: '/admin/users/$userId'; fullPath: '/admin/users/$userId'; preLoaderRoute: typeof IndexImport; parentRoute: typeof rootRoute }
   }
 }
 
@@ -75,8 +79,12 @@ export interface FileRoutesByFullPath {
   '/dashboard/': typeof IndexRoute
   '/dashboard/billing': typeof IndexRoute
   '/dashboard/teams': typeof IndexRoute
+  '/dashboard/teams/': typeof IndexRoute
   '/dashboard/teams/create': typeof IndexRoute
+  '/dashboard/teams/$teamSlug': typeof IndexRoute
   '/admin': typeof IndexRoute
+  '/admin/': typeof IndexRoute
+  '/admin/users/$userId': typeof IndexRoute
   '/forgot-password': typeof IndexRoute
   '/reset-password': typeof IndexRoute
   '/verify-email': typeof IndexRoute
@@ -100,8 +108,12 @@ export interface FileRoutesByTo {
   '/dashboard/': typeof IndexRoute
   '/dashboard/billing': typeof IndexRoute
   '/dashboard/teams': typeof IndexRoute
+  '/dashboard/teams/': typeof IndexRoute
   '/dashboard/teams/create': typeof IndexRoute
+  '/dashboard/teams/$teamSlug': typeof IndexRoute
   '/admin': typeof IndexRoute
+  '/admin/': typeof IndexRoute
+  '/admin/users/$userId': typeof IndexRoute
   '/forgot-password': typeof IndexRoute
   '/reset-password': typeof IndexRoute
   '/verify-email': typeof IndexRoute
@@ -118,10 +130,10 @@ export interface FileRoutesById {
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
+  fullPaths: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/' | '/dashboard/teams/create' | '/dashboard/teams/$teamSlug' | '/admin' | '/admin/' | '/admin/users/$userId' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
-  id: '__root__' | '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/create' | '/admin' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
+  to: '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/' | '/dashboard/teams/create' | '/dashboard/teams/$teamSlug' | '/admin' | '/admin/' | '/admin/users/$userId' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
+  id: '__root__' | '/' | '/terms' | '/privacy' | '/sign-in' | '/sign-up' | '/settings' | '/settings/' | '/settings/security' | '/settings/sessions' | '/dashboard' | '/dashboard/' | '/dashboard/billing' | '/dashboard/teams' | '/dashboard/teams/' | '/dashboard/teams/create' | '/dashboard/teams/$teamSlug' | '/admin' | '/admin/' | '/admin/users/$userId' | '/forgot-password' | '/reset-password' | '/verify-email' | '/team-invite' | '/sso/google' | '/sso/google/' | '/sso/google/callback'
   fileRoutesById: FileRoutesById
 }
 
