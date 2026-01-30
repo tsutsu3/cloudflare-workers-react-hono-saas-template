@@ -6,6 +6,7 @@
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { logger } from "hono/logger";
+import { secureHeaders } from "hono/secure-headers";
 
 // Import routes
 import authRoutes from "./routes/auth";
@@ -13,6 +14,9 @@ import teamsRoutes from "./routes/teams";
 import creditsRoutes from "./routes/credits";
 import adminRoutes from "./routes/admin";
 import billingRoutes from "./routes/billing";
+
+// Import middleware
+import { errorHandler, notFoundHandler } from "./middleware/error-handler";
 
 // ============================================================================
 // Types
@@ -55,11 +59,20 @@ export interface Env {
 const app = new Hono<{ Bindings: Env }>();
 
 // ============================================================================
+// Global Error Handler
+// ============================================================================
+
+app.onError(errorHandler);
+
+// ============================================================================
 // Middleware
 // ============================================================================
 
 // Logging middleware
 app.use("*", logger());
+
+// Security headers
+app.use("*", secureHeaders());
 
 // CORS configuration
 app.use(
@@ -121,6 +134,13 @@ app.get("/api/config", (c) => {
     isCreditBillingEnabled: Boolean(c.env.STRIPE_SECRET_KEY),
   });
 });
+
+// ============================================================================
+// API 404 Handler
+// ============================================================================
+
+// Handle 404 for API routes specifically
+app.all("/api/*", notFoundHandler);
 
 // ============================================================================
 // Static Assets & SPA Fallback
