@@ -105,14 +105,15 @@ type GoogleSSOResponse = {
 // ============================================================================
 
 const RATE_LIMITS = {
-  SIGN_IN: { limit: 10, windowInSeconds: 60, identifier: "auth:sign-in" },
-  SIGN_UP: { limit: 5, windowInSeconds: 60, identifier: "auth:sign-up" },
-  FORGOT_PASSWORD: { limit: 5, windowInSeconds: 60, identifier: "auth:forgot-password" },
-  RESET_PASSWORD: { limit: 5, windowInSeconds: 60, identifier: "auth:reset-password" },
-  VERIFY_EMAIL: { limit: 10, windowInSeconds: 60, identifier: "auth:verify-email" },
-  PASSKEY: { limit: 10, windowInSeconds: 60, identifier: "auth:passkey" },
-  GOOGLE_SSO: { limit: 10, windowInSeconds: 60, identifier: "auth:google-sso" },
-  SESSION: { limit: 60, windowInSeconds: 60, identifier: "auth:session" },
+  SIGN_IN: { limit: 15, windowInSeconds: 3600, identifier: "auth:sign-in" },  // 15回/時
+  SIGN_UP: { limit: 3, windowInSeconds: 3600, identifier: "auth:sign-up" },   // 3回/時
+  FORGOT_PASSWORD: { limit: 4, windowInSeconds: 3600, identifier: "auth:forgot-password" },  // 4回/時
+  RESET_PASSWORD: { limit: 7, windowInSeconds: 3600, identifier: "auth:reset-password" },    // 7回/時
+  VERIFY_EMAIL: { limit: 10, windowInSeconds: 3600, identifier: "auth:verify-email" },  // 10回/時
+  PASSKEY: { limit: 15, windowInSeconds: 3600, identifier: "auth:passkey" },  // 15回/時
+  GOOGLE_SSO: { limit: 15, windowInSeconds: 3600, identifier: "auth:google-sso" },  // 15回/時
+  SIGN_OUT: { limit: 5, windowInSeconds: 600, identifier: "auth:sign-out" },  // 5回/10分
+  SESSION: { limit: 60, windowInSeconds: 60, identifier: "auth:session" },    // 60回/分（維持）
 };
 
 // ============================================================================
@@ -266,7 +267,7 @@ auth.post(
 // ----------------------------------------------------------------------------
 // POST /sign-out - Sign out current session
 // ----------------------------------------------------------------------------
-auth.post("/sign-out", async (c) => {
+auth.post("/sign-out", rateLimitMiddleware(RATE_LIMITS.SIGN_OUT), async (c) => {
   try {
     const session = await getSessionFromCookie(c);
 
