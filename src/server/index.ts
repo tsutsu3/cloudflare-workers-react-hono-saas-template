@@ -16,6 +16,7 @@ import teamsRoutes from "./routes/teams";
 import creditsRoutes from "./routes/credits";
 import adminRoutes from "./routes/admin";
 import billingRoutes from "./routes/billing";
+import marketplaceRoutes from "./routes/marketplace";
 
 // Import middleware
 import { errorHandler, notFoundHandler } from "./middleware/error-handler";
@@ -114,6 +115,9 @@ app.route("/api/admin", adminRoutes);
 
 // Billing routes - /api/billing/*
 app.route("/api/billing", billingRoutes);
+
+// Marketplace routes - /api/marketplace/*
+app.route("/api/marketplace", marketplaceRoutes);
 
 // ============================================================================
 // Health Check

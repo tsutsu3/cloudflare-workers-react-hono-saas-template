@@ -8,7 +8,9 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import { SITE_DOMAIN } from "@/shared/constants";
+import * as React from "react";
+// Use local constants for react-email dev server compatibility (no import.meta.env)
+import { SITE_DOMAIN } from "./constants";
 
 interface TeamInviteEmailProps {
   inviteLink?: string;
@@ -131,3 +133,5 @@ const footer = {
   textAlign: "center" as const,
   margin: "20px 0",
 };
+
+export default TeamInviteEmail;

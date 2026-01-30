@@ -29,6 +29,7 @@ import { Route as SettingsSecurityRouteImport } from './routes/settings/security
 import { Route as DashboardBillingRouteImport } from './routes/dashboard/billing'
 import { Route as SsoGoogleIndexRouteImport } from './routes/sso/google/index'
 import { Route as DashboardTeamsIndexRouteImport } from './routes/dashboard/teams/index'
+import { Route as DashboardMarketplaceIndexRouteImport } from './routes/dashboard/marketplace/index'
 import { Route as SsoGoogleCallbackRouteImport } from './routes/sso/google/callback'
 import { Route as DashboardTeamsCreateRouteImport } from './routes/dashboard/teams/create'
 import { Route as DashboardTeamsTeamSlugRouteImport } from './routes/dashboard/teams/$teamSlug'
@@ -134,6 +135,12 @@ const DashboardTeamsIndexRoute = DashboardTeamsIndexRouteImport.update({
   path: '/teams/',
   getParentRoute: () => DashboardRoute,
 } as any)
+const DashboardMarketplaceIndexRoute =
+  DashboardMarketplaceIndexRouteImport.update({
+    id: '/marketplace/',
+    path: '/marketplace/',
+    getParentRoute: () => DashboardRoute,
+  } as any)
 const SsoGoogleCallbackRoute = SsoGoogleCallbackRouteImport.update({
   id: '/sso/google/callback',
   path: '/sso/google/callback',
@@ -178,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/teams/$teamSlug': typeof DashboardTeamsTeamSlugRoute
   '/dashboard/teams/create': typeof DashboardTeamsCreateRoute
   '/sso/google/callback': typeof SsoGoogleCallbackRoute
+  '/dashboard/marketplace/': typeof DashboardMarketplaceIndexRoute
   '/dashboard/teams/': typeof DashboardTeamsIndexRoute
   '/sso/google/': typeof SsoGoogleIndexRoute
 }
@@ -201,6 +209,7 @@ export interface FileRoutesByTo {
   '/dashboard/teams/$teamSlug': typeof DashboardTeamsTeamSlugRoute
   '/dashboard/teams/create': typeof DashboardTeamsCreateRoute
   '/sso/google/callback': typeof SsoGoogleCallbackRoute
+  '/dashboard/marketplace': typeof DashboardMarketplaceIndexRoute
   '/dashboard/teams': typeof DashboardTeamsIndexRoute
   '/sso/google': typeof SsoGoogleIndexRoute
 }
@@ -228,6 +237,7 @@ export interface FileRoutesById {
   '/dashboard/teams/$teamSlug': typeof DashboardTeamsTeamSlugRoute
   '/dashboard/teams/create': typeof DashboardTeamsCreateRoute
   '/sso/google/callback': typeof SsoGoogleCallbackRoute
+  '/dashboard/marketplace/': typeof DashboardMarketplaceIndexRoute
   '/dashboard/teams/': typeof DashboardTeamsIndexRoute
   '/sso/google/': typeof SsoGoogleIndexRoute
 }
@@ -256,6 +266,7 @@ export interface FileRouteTypes {
     | '/dashboard/teams/$teamSlug'
     | '/dashboard/teams/create'
     | '/sso/google/callback'
+    | '/dashboard/marketplace/'
     | '/dashboard/teams/'
     | '/sso/google/'
   fileRoutesByTo: FileRoutesByTo
@@ -279,6 +290,7 @@ export interface FileRouteTypes {
     | '/dashboard/teams/$teamSlug'
     | '/dashboard/teams/create'
     | '/sso/google/callback'
+    | '/dashboard/marketplace'
     | '/dashboard/teams'
     | '/sso/google'
   id:
@@ -305,6 +317,7 @@ export interface FileRouteTypes {
     | '/dashboard/teams/$teamSlug'
     | '/dashboard/teams/create'
     | '/sso/google/callback'
+    | '/dashboard/marketplace/'
     | '/dashboard/teams/'
     | '/sso/google/'
   fileRoutesById: FileRoutesById
@@ -468,6 +481,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardTeamsIndexRouteImport
       parentRoute: typeof DashboardRoute
     }
+    '/dashboard/marketplace/': {
+      id: '/dashboard/marketplace/'
+      path: '/marketplace'
+      fullPath: '/dashboard/marketplace/'
+      preLoaderRoute: typeof DashboardMarketplaceIndexRouteImport
+      parentRoute: typeof DashboardRoute
+    }
     '/sso/google/callback': {
       id: '/sso/google/callback'
       path: '/sso/google/callback'
@@ -516,6 +536,7 @@ interface DashboardRouteChildren {
   DashboardIndexRoute: typeof DashboardIndexRoute
   DashboardTeamsTeamSlugRoute: typeof DashboardTeamsTeamSlugRoute
   DashboardTeamsCreateRoute: typeof DashboardTeamsCreateRoute
+  DashboardMarketplaceIndexRoute: typeof DashboardMarketplaceIndexRoute
   DashboardTeamsIndexRoute: typeof DashboardTeamsIndexRoute
 }
 
@@ -524,6 +545,7 @@ const DashboardRouteChildren: DashboardRouteChildren = {
   DashboardIndexRoute: DashboardIndexRoute,
   DashboardTeamsTeamSlugRoute: DashboardTeamsTeamSlugRoute,
   DashboardTeamsCreateRoute: DashboardTeamsCreateRoute,
+  DashboardMarketplaceIndexRoute: DashboardMarketplaceIndexRoute,
   DashboardTeamsIndexRoute: DashboardTeamsIndexRoute,
 }
 

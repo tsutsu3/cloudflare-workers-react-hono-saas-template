@@ -8,7 +8,9 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import { EMAIL_VERIFICATION_TOKEN_EXPIRATION_SECONDS, SITE_DOMAIN } from "@/shared/constants";
+import * as React from "react";
+// Use local constants for react-email dev server compatibility (no import.meta.env)
+import { EMAIL_VERIFICATION_TOKEN_EXPIRATION_SECONDS, SITE_DOMAIN } from "./constants";
 
 interface VerifyEmailProps {
   verificationLink?: string;
@@ -127,3 +129,5 @@ const footer = {
   textAlign: "center" as const,
   margin: "20px 0",
 };
+
+export default VerifyEmail;
