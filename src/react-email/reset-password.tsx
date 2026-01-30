@@ -8,8 +8,7 @@ import {
   Section,
   Text,
 } from "@react-email/components";
-import * as React from "react";
-import { SITE_DOMAIN } from "@/constants";
+import { SITE_DOMAIN } from "@/shared/constants";
 
 interface ResetPasswordEmailProps {
   resetLink?: string;

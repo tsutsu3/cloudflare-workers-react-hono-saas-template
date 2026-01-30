@@ -32,6 +32,7 @@
   "dependencies": {
     "@heroicons/react": "^2.2.0",
     "@heroui/react": "^2.8.5",
+    "@hono/zod-validator": "^0.7.6",
     "@hookform/resolvers": "^3.10.0",
     "@icons-pack/react-simple-icons": "^11.2.0",
     "@marsidev/react-turnstile": "^1.1.0",
@@ -65,7 +66,6 @@
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.44.6",
     "hono": "^4.6.15",
-    "@hono/zod-validator": "^0.4.4",
     "ipaddr.js": "^2.2.0",
     "lucide-react": "^0.471.0",
     "motion": "^11.18.0",
@@ -85,11 +85,12 @@
     "zustand": "^5.0.5"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260130.0",
     "@eslint/eslintrc": "^3",
     "@playwright/test": "^1.58.0",
     "@simplewebauthn/types": "^12.0.0",
-    "@tailwindcss/vite": "^4",
     "@tailwindcss/typography": "^0.5.19",
+    "@tailwindcss/vite": "^4",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@testing-library/user-event": "^14.6.1",
