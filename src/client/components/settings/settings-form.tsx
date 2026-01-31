@@ -1,0 +1,169 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import type * as z from "zod";
+import { Button } from "@/client/components/ui/button";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/client/components/ui/form";
+import { Input } from "@/client/components/ui/input";
+import { toast } from "sonner";
+import { useEffect } from "react";
+import { useSessionStore } from "@/client/state/session";
+import { userSettingsSchema } from "@/shared/schemas/settings.schema";
+import { useMutation } from "@tanstack/react-query";
+import { apiClient } from "@/client/lib/api-client";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/client/components/ui/card";
+import { Skeleton } from "@/client/components/ui/skeleton";
+
+export function SettingsForm() {
+  const updateProfileMutation = useMutation({
+    mutationFn: async (data: z.infer<typeof userSettingsSchema>) => {
+      const response = await apiClient.post('/user/profile', data);
+      return response.data;
+    },
+    onMutate: () => {
+      toast.loading("Updating profile...");
+    },
+    onError: (error: any) => {
+      toast.dismiss();
+      toast.error(error.response?.data?.error || "Failed to update profile");
+    },
+    onSuccess: async () => {
+      toast.dismiss();
+      toast.success("Profile updated successfully");
+      // Refresh session to get updated data
+      await fetchSession?.();
+    }
+  });
+
+  const { session, isLoading, fetchSession } = useSessionStore();
+  const form = useForm<z.infer<typeof userSettingsSchema>>({
+    resolver: zodResolver(userSettingsSchema),
+    defaultValues: {
+      firstName: '',
+      lastName: '',
+    },
+  });
+
+  useEffect(() => {
+    form.reset({
+      firstName: session?.user.firstName ?? '',
+      lastName: session?.user.lastName ?? '',
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
+
+  if (!session || isLoading) {
+    return (
+      <Card>
+        <CardHeader>
+          <div className="space-y-2">
+            <Skeleton className="h-8 w-[200px]" />
+            <Skeleton className="h-4 w-[300px]" />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[100px]" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-[100px]" />
+                <Skeleton className="h-10 w-full" />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Skeleton className="h-4 w-[100px]" />
+              <Skeleton className="h-10 w-full" />
+              <Skeleton className="h-4 w-[200px]" />
+            </div>
+
+            <div className="flex justify-end">
+              <Skeleton className="h-10 w-[100px]" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
+  async function onSubmit(values: z.infer<typeof userSettingsSchema>) {
+    updateProfileMutation.mutate(values);
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Profile Settings</CardTitle>
+        <CardDescription>
+          Update your personal information and contact details.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <div className="grid gap-6 sm:grid-cols-2">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>First Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="lastName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Last Name</FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+
+
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  type="email"
+                  disabled
+                  value={session.user.email ?? ''}
+                />
+              </FormControl>
+              <FormDescription>
+                This is the email you use to sign in.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+
+            <div className="flex justify-end">
+              <Button type="submit" disabled={updateProfileMutation.isPending}>
+                Save changes
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
+  );
+}

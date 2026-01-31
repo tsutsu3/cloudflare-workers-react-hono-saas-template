@@ -1,0 +1,76 @@
+/**
+ * For more details on how to configure Wrangler, refer to:
+ * https://developers.cloudflare.com/workers/wrangler/configuration/
+ */
+ {
+    "$schema": "node_modules/wrangler/config-schema.json",
+    "account_id": "0d5667a195a90458761fe59fca898f9c",
+    "name": "cloudflare-workers-react-hono-saas-template",
+    "main": "src/server/index.ts",
+    "compatibility_date": "2025-03-01",
+    "compatibility_flags": [
+      "nodejs_compat",
+      "global_fetch_strictly_public"
+    ],
+    // Minification helps to keep the Worker bundle size down and improve start up time.
+    "minify": true,
+    "assets": {
+      "binding": "ASSETS",
+      "directory": "dist/client"
+    },
+    "observability": {
+      "enabled": true,
+      "logs": {
+        "enabled": true
+      },
+      "traces": {
+        "enabled": true,
+      }
+    },
+    /**
+     * Smart Placement
+     * Docs: https://developers.cloudflare.com/workers/configuration/smart-placement/#smart-placement
+     */
+    "placement": { "mode": "smart" },
+
+    /**
+     * Bindings
+     * Bindings allow your Worker to interact with resources on the Cloudflare Developer Platform, including
+     * databases, object storage, AI inference, real-time communication and more.
+     * https://developers.cloudflare.com/workers/runtime-apis/bindings/
+     */
+
+    /**
+     * Environment Variables
+     * https://developers.cloudflare.com/workers/wrangler/configuration/#environment-variables
+     */
+    "vars": {
+        "SITE_URL": "https://nextjs-saas-template.lubomirgeorgiev.com",
+        "EMAIL_FROM": "no-reply@notifications.lubomirgeorgiev.com",
+        "EMAIL_FROM_NAME": "Lubomir Georgiev",
+        "EMAIL_REPLY_TO": "lubo@lubomirgeorgiev.com"
+    },
+    /**
+     * Note: Use secrets to store sensitive data.
+     * https://developers.cloudflare.com/workers/configuration/secrets/
+     */
+
+    /**
+     * Service Bindings (communicate between multiple Workers)
+     * https://developers.cloudflare.com/workers/wrangler/configuration/#service-bindings
+     */
+     "d1_databases": [
+        {
+            "binding": "NEXT_TAG_CACHE_D1",
+            "database_name": "cloudflare-workers-nextjs-saas",
+            "database_id": "db968793-55f4-481e-b281-7e1907a775b1",
+            "migrations_dir": "src/db/migrations"
+        }
+    ],
+    "kv_namespaces": [
+        {
+            "binding": "NEXT_INC_CACHE_KV",
+            "id": "e922d6e22f4a46b6a92be653e90c6ca1"
+        }
+    ]
+  }
