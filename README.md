@@ -1,4 +1,7 @@
-# Cloudflare Workers + React 19 + Hono SaaS Template
+# 🚧 Cloudflare Workers + React 19 + Hono SaaS Template 🚧
+
+> [!NOTE]
+> 🚧🚧🚧 This project is under active development. 🚧🚧🚧
 
 This is a modern SaaS template for Cloudflare Workers built with:
 - **React 19** - Latest React with improved performance
